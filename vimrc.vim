@@ -6,9 +6,6 @@ set encoding=utf-8
 "------------------------------------------------
 set background=dark
 
-" Custom Tomorrow-Night via shadowfax-chc/vim-tomorrow-theme
-silent! colorscheme Tomorrow-Night
-
 " Basic settings
 "highlight Normal                                                         guifg=Green    guibg=Black
 "highlight LineNr     cterm=bold ctermfg=gray  ctermbg=NONE      gui=NONE guifg=DarkGrey guibg=NONE
@@ -31,6 +28,12 @@ silent! colorscheme Tomorrow-Night
 highlight OverLength      ctermbg=red
 "highlight ColorColumn     ctermbg=darkgray
 highlight ExtraWhitespace ctermbg=red guibg=red
+
+nmap fz :Files<CR>
+nmap nt :NERDTreeToggle<CR>
+nmap nb :NERDTreeBookmark<CR>
+nmap nf :NERDTreeFocus<CR>
+nmap ns :NERDTreeFind<CR>
 
 
 "------------------------------------------------
@@ -67,7 +70,7 @@ set smartcase          " Use case in search with capitals
 
 " Line number settings
 set number             " Start with absolute numbers at cursor
-set relativenumber     " Start with relative numbers
+"set relativenumber     " Start with relative numbers
 set numberwidth=3      " Use 3 columns for numbers
 
 " Cursor / visual settings
@@ -96,14 +99,9 @@ set writebackup
 " Plugin settings
 "------------------------------------------------
 
-" Ctrl-P settings
-let g:ctrlp_use_caching=0
-
-" SuperTab settings
-let g:SuperTabDefaultCompletionType = "context"
-
 " NERDTree
 let g:NERDTreeQuitOnOpen=1
+let g:nerdtree_tabs_open_on_console_startup = 1
 
 " Fugitive
 nnoremap <leader>gs :Gstatus<CR>
@@ -125,9 +123,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" Easytags
-let g:easytags_suppress_ctags_warning = 1
+let g:syntastic_disabled_filetypes=['go']
 
 " Gundo settings
 let g:gundo_preview_bottom = 1
@@ -135,18 +131,6 @@ let g:gundo_right = 1
 let g:gundo_help = 0
 let g:gundo_width = 25
 let g:gundo_preview_height = 10
-
-" Eclim settings
-let g:EclimProjectTreeAutoOpen = 0
-let g:EclimProjectTreeSharedInstance = 1
-let g:EclimBrowser = 'xombrero'
-let g:EclimOpenUrlInVimPatterns =
-  \ [
-    \ '\.\(dtd\|xml\|xsd\)$',
-    \ '\.txt$',
-  \ ]
-command -range -nargs=* Google call eclim#web#SearchEngine('http://www.google.com/search?q=<query>', <q-args>, <line1>, <line2>)
-command -nargs=? Dictionary call eclim#web#WordLookup('http://dictionary.reference.com/search?q=<query>', '<args>')
 
 " Indent Guides
 let g:indent_guides_guide_size = 1
@@ -171,12 +155,9 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_list_type = "quickfix"
 
-let g:SuperTabDefaultCompletionType = '<C-n>'
+autocmd FileType go nmap <silent> <Leader>d <Plug>(go-def-tab)
 
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " EasyAlign
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -240,9 +221,6 @@ autocmd BufWinEnter *.coffee silent loadview
 autocmd BufWinLeave *.sls mkview
 autocmd BufWinEnter *.sls silent loadview
 
-" Treat all html as htmldjango
-autocmd BufNewFile,BufRead *.html set filetype=htmldjango
-
 " Treat all *.md as markdown
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 
@@ -273,7 +251,6 @@ vnoremap > >gv
 
 " Command to write as root if forgot to open with sudo
 cmap w!! %!sudo tee > /dev/null %
-
 
 " Cleanup white space
 function! RemoveTrailingWhiteSpace()
