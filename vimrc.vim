@@ -134,6 +134,7 @@ let g:gundo_preview_height = 10
 
 " Indent Guides
 let g:indent_guides_guide_size = 1
+let g:indentLine_setConceal = 0
 
 " Air-line
 let g:airline_powerline_fonts = 1
